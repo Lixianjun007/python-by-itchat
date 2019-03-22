@@ -22,7 +22,7 @@ class gfweather:
 
     def __init__(self):
         self.girlfriend_list, self.alarm_hour, self.alarm_minute = self.get_init_data()
-        locale.setlocale(locale.LC_CTYPE, 'en_US.UTF-8')
+        # locale.setlocale(locale.LC_CTYPE, 'en_US.UTF-8')
 
     def get_init_data(self):
         """
@@ -86,9 +86,11 @@ class gfweather:
         for _ in range(5):
             # 命令行显示登录二维码
             # itchat.auto_login(enableCmdQR=True)
-            itchat.auto_login(True, enableCmdQR=2)
+            itchat.auto_login(True)
             if online():
                 print('登录成功')
+                msg = "操作指令：向文件传输助手发送\n1:私聊开启（白名单中的好友会收到自动回复脚本）\n2：私聊关闭（所有自动回复脚本关闭）\n3：私聊全部开启（全部好友都会收到自动回复脚本）\n4:群聊关闭（所有群聊关闭自动脚本）\n5：群聊全部开启（所有群聊开启自动回复脚本）\n6：添加{好友备注}（将好友添加至自动回复白名单）\n7：剔除{好友备注}（将好友移除白名单）\n8：状态（当前状态）"
+                itchat.send_msg(msg, 'filehelper')
                 return True
         else:
             print('登录成功')

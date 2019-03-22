@@ -15,7 +15,8 @@ GLOBAL_SELF = ''
 def print_content(msg):
     global GLOBAL_FRIEND, GLOBAL_GROUP
     global GLOBAL_SELF
-    # print(msg)
+    if msg['ToUserName'] == 'filehelper':
+        return returnFilter(msg)
     if GLOBAL_SELF != msg['FromUserName']:
         print(msg['User']['RemarkName'] + '--' + msg['Text'])
     else:
@@ -23,17 +24,16 @@ def print_content(msg):
     # 为了过滤自己
     if msg['ToUserName'] == msg['FromUserName']:
         GLOBAL_SELF = msg['FromUserName']
-    if msg['ToUserName'] == 'filehelper':
-        return returnFilter(msg)
     if (msg['ToUserName'] == msg['FromUserName']) | (msg['FromUserName'] == GLOBAL_SELF):
         return
 
     # debugStatus(GLOBAL_FRIEND, GLOBAL_GROUP)
     if GLOBAL_FRIEND == 1:
         # //msg['User']['RemarkName']
-        if (handelReply.userNameArr.count(msg['User']['RemarkName'])) | (
-                handelReply.userNameArr.count(msg['User']['RemarkName'] + '\n')):
-            return dealMsg.get_response(msg['Text'])
+        if len(msg['User']) > 2:
+            if (handelReply.userNameArr.count(msg['User']['RemarkName'])) | (
+                    handelReply.userNameArr.count(msg['User']['RemarkName'] + '\n')):
+                return dealMsg.get_response(msg['Text'])
     if GLOBAL_FRIEND == 3:
         return dealMsg.get_response(msg['Text'])
     return
@@ -65,12 +65,14 @@ def returnFilter(msg):
 # 用于接收群里面的对话消息
 def print_content(msg):
     print(msg['Text'])
+    print(msg['User']['NickName'])
     if (msg['ToUserName'] == msg['FromUserName']) | (msg['FromUserName'] == GLOBAL_SELF):
         return
     global GLOBAL_GROUP
     # debugStatus(GLOBAL_FRIEND, GLOBAL_GROUP)
     if GLOBAL_GROUP == 1:
-        if handelReply.groupNameArr.count(msg['FromUserName']):
+        # //群聊过滤
+        if handelReply.userNameArr.count(msg['User']['NickName']):
             return dealMsg.get_response(msg['Text'])
     if GLOBAL_GROUP == 3:
         return dealMsg.get_response(msg['Text'])
