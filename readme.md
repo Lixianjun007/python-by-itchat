@@ -12,6 +12,9 @@ https://github.com/sfyc23/EverydayWechat  由于没有女友，本人基本用�
 
 聊天对接机器人对接图灵
 
+使用 pip install -r config/requirements.txt 安装所有依赖
+
+
 环境配置好之后， run.py 即可直接运行
 
 
